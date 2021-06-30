@@ -8,14 +8,15 @@ build() {
     USER=$1
     PREFIX=$2
     NAME=$3
-    if [ "$NAME" = "" ]; then
-      IMAGE=$USER/$PREFIX:$TAG
-    else
-      IMAGE=$USER/$PREFIX-$NAME:$TAG
-    fi
+    IMAGE=$USER/$PREFIX-$NAME:$TAG
+
+    echo "NAME: $USER"
+    echo "PREFIX: $PREFIX"
+    echo "NAME: $NAME"
+
     cd $([ -z "$4" ] && echo "./$NAME" || echo "$4")
     echo '--------------------------' building $IMAGE in $(pwd)
-    echo "docker build -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG ."
+    echo "--->docker build -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .<---"
     docker build --no-cache -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .
     cd -
 }
@@ -33,4 +34,4 @@ if [ "$username" == "" ] ; then
   exit
 fi
 
-build "$username" hive-metastore-postgresql
+build "$username" hive metastore-postgresql .
